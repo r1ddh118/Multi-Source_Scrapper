@@ -20,9 +20,9 @@ def main():
 
     youtube_ids = ["XlMZ46NuEwk", "scDmziIwUEY"]
     blog_urls = [
-        "https://gi-doctor.medium.com/5-super-reasons-why-you-should-care-for-your-gut-bf812fcf70ba",
-        "https://medium.com/@manas_inquest/the-art-of-a-healthy-gut-d880bcd3f319",
-        "https://medium.com/in-fitness-and-in-health/the-gut-health-diet-what-to-eat-and-avoid-8a68484f95f3",
+        "https://en.wikipedia.org/wiki/Healthy_digestion",
+        "https://en.wikipedia.org/wiki/Gut_Health",
+        "https://en.wikipedia.org/wiki/Healthy_diet",
     ]
     pubmed_urls = ["https://pubmed.ncbi.nlm.nih.gov/41485166/"]
 
@@ -48,8 +48,6 @@ def main():
         item = scrape_pubmed(url)
         pubmed_data.append(item)
         all_data.append(item)
-
-        all_data.append(pubmed_data)
 
     _write_json(OUTPUT_DIR / "youtube.json", youtube_data)
     _write_json(OUTPUT_DIR / "blogs.json", blog_data)
