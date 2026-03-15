@@ -71,5 +71,5 @@ def scrape_pubmed(url: str) -> dict:
         "region": region,
         "topic_tags": topic_tags,
         "trust_score": trust_score,
-        "content_chunks": content_chunks
+        "content_chunks": content_chunks,
     }
