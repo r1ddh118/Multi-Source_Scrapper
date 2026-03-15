@@ -6,7 +6,7 @@ from urllib.parse import urlparse
 def get_domain_score(url):
     domain = urlparse(url).netloc.lower()
     high_trust = ["pubmed", "nih.gov", "who.int", "nature.com"]
-    medium_trust = ["youtube.com", "wikipedia.org"]
+    medium_trust = ["youtube.com", "medium.com", "wikipedia.org"]
     if any(d in domain for d in high_trust):
         return 1.0
     elif any(d in domain for d in medium_trust):
