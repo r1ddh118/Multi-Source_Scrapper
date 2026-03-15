@@ -8,6 +8,7 @@ from langdetect import detect
 from utils.tagging import extract_tags
 from utils.chunking import chunk_text
 from scoring.trust_score import calculate_trust
+from utils.regions import get_region
 
 def scrape_youtube(video_id):
     url = f"https://www.youtube.com/watch?v={video_id}"
@@ -46,6 +47,8 @@ def scrape_youtube(video_id):
     topic_tags = extract_tags(full_text)
     
     content_chunks = chunk_text(paragraphs)
+    
+    region = get_region(url)
 
     trust_score = calculate_trust(url=url, author=channel_name, source_type="youtube", publish_year=publish_year, soup=soup, text=full_text)
 
@@ -56,7 +59,7 @@ def scrape_youtube(video_id):
         "published_date": published_date,
         "publication_year": publish_year,
         "language": language,
-        "region": "",
+        "region": region,
         "topic_tags": topic_tags,
         "trust_score": trust_score,
         "content_chunks": content_chunks
