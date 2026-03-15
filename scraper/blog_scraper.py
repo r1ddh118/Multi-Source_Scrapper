@@ -42,7 +42,29 @@ def scrape_blog(url: str) -> dict:
     author_meta = soup.find("meta", {"name": "author"}) or soup.find("meta", {"property": "author"})
     author = (author_meta.get("content") if author_meta else "") or "Unknown"
 
-    published_date, publish_year = _parse_publish_date(soup)
+    candidates = [
+        soup.find("meta", {"property": "article:published_time"}),
+        soup.find("meta", {"name": "publish_date"}),
+        soup.find("meta", {"name": "date"}),
+        soup.find("time"),
+    ]
+
+    for tag in candidates:
+        if not tag:
+            continue
+
+        value = tag.get("content") or tag.get_text(strip=True)
+        if not value:
+            continue
+
+        year_match = re.search(r"\b(19|20)\d{2}\b", value)
+        year = int(year_match.group()) if year_match else None
+        published_date = value
+        publish_year = year
+        break
+    else:
+        published_date = "Unknown"
+        publish_year = None
 
     title = ""
     og_title = soup.find("meta", {"property": "og:title"})
