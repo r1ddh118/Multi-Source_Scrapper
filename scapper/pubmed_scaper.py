@@ -5,6 +5,10 @@ from bs4 import BeautifulSoup
 from langdetect import detect
 import re
 
+from utils.tagging import extract_tags
+from utils.chunking import chunk_text
+from scoring.trust_score import calculate_trust
+
 def scrape_pubmed(url):
     r = requests.get(url)
     soup = BeautifulSoup(r.text, "html.parser")
@@ -37,14 +41,21 @@ def scrape_pubmed(url):
     abstract = abstract_tag.text.strip() if abstract_tag else ""
     paragraphs = [abstract]
     
+    topic_tags = extract_tags(abstract)
+
+    content_chunks = chunk_text(paragraphs)
+
+    trust_score = calculate_trust(url=url, author=author, source_type="pubmed", publish_year=publish_year, soup=soup, text=abstract)
+
     return {
         "source_url": url,
         "source_type": "pubmed",
         "author": author,
         "published_date": published_date,
-        "language": "unknown",
+        "publication_year": publish_year,
+        "language": language,
         "region": "",
-        "topic_tags": [],
-        "trust_score": "",
-        "content_chunks": [abstract]
+        "topic_tags": topic_tags,
+        "trust_score": trust_score,
+        "content_chunks": content_chunks
     }
