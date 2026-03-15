@@ -7,6 +7,7 @@ from langdetect import detect
 from utils.tagging import extract_tags
 from utils.chunking import chunk_text
 from scoring.trust_score import calculate_trust
+from utils.regions import get_region
 
 def scrape_blog(url):
     r = requests.get(url)
@@ -38,13 +39,15 @@ def scrape_blog(url):
     
     trust_score = calculate_trust(url, author, "blog", publish_year, soup, full_text)
     
+    region = get_region(url)
+    
     return {
         "source_url": url,
         "source_type": "blog",
         "author": author,
         "published_date": published_date,
         "language": language,
-        "region": "",
+        "region": region,
         "topic_tags": topic_tags,
         "trust_score": trust_score,
         "content_chunks": content_chunks
