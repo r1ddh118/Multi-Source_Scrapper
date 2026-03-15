@@ -8,6 +8,7 @@ import re
 from utils.tagging import extract_tags
 from utils.chunking import chunk_text
 from scoring.trust_score import calculate_trust
+from utils.regions import get_region
 
 def scrape_pubmed(url):
     r = requests.get(url)
@@ -44,6 +45,8 @@ def scrape_pubmed(url):
     topic_tags = extract_tags(abstract)
 
     content_chunks = chunk_text(paragraphs)
+    
+    region = get_region(url)
 
     trust_score = calculate_trust(url=url, author=author, source_type="pubmed", publish_year=publish_year, soup=soup, text=abstract)
 
@@ -54,7 +57,7 @@ def scrape_pubmed(url):
         "published_date": published_date,
         "publication_year": publish_year,
         "language": language,
-        "region": "",
+        "region": region,
         "topic_tags": topic_tags,
         "trust_score": trust_score,
         "content_chunks": content_chunks
