@@ -38,7 +38,7 @@ def scrape_youtube(video_id):
         "source_url": url,
         "source_type": "youtube",
         "author": channel_name,
-        "published_date": publish_date,
+        "published_date": published_date,
         "language": language,
         "region": "",
         "topic_tags": [],
